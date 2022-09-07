@@ -1,5 +1,5 @@
 # #####################################################
-# onemarcfifty/kali-linux
+# kali-linux-docker image build with Desktop environment
 # #####################################################
 #
 # This Dockerfile will build a Kali Linux Docker 
@@ -86,7 +86,7 @@ RUN apt -y install --no-install-recommends ${KALI_PKG}
 # #####################################################
 
 RUN useradd -m -s /bin/bash -G sudo kaliuser
-RUN echo 'kaliuser:onemarcfifty' | chpasswd
+RUN echo 'kaliuser:kALIKALI' | chpasswd
 
 # #####################################################
 # change the ssh port in /etc/ssh/sshd_config
@@ -143,7 +143,7 @@ RUN if [ "xvnc" = "x${REMOTE_ACCESS}" ] ; \
     then \
         apt -y install --no-install-recommends tigervnc-standalone-server tigervnc-tools; \
         echo "/usr/libexec/tigervncsession-start :${VNC_DISPLAY} " >> /startkali.sh ; \
-        echo "echo -e 'onemarcfifty' | vncpasswd -f >/home/kaliuser/.vnc/passwd" >> /startkali.sh  ;\
+        echo "echo -e 'kALIKALI' | vncpasswd -f >/home/kaliuser/.vnc/passwd" >> /startkali.sh  ;\
         echo "while true; do sudo -u kaliuser vncserver -fg -v ; done" >> /startkali.sh ; \
         echo ":${VNC_DISPLAY}=kaliuser" >>/etc/tigervnc/vncserver.users ;\
         echo '$localhost = "no";' >>/etc/tigervnc/vncserver-config-mandatory ;\
