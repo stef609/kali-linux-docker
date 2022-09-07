@@ -20,16 +20,16 @@ XSSH_PORT=22
 # You can chose them from the menu
 # ##########################################################################
 
-XDESKTOP_ENVIRONMENT=gnome
+XDESKTOP_ENVIRONMENT=xfce
 XDESKTOP_CHOICE=("xfce" "mate" "kde" "e17" "gnome" "i3" "i3-gaps" "live" "lxde")
 
 XREMOTE_ACCESS=rdp
 XREMOTE_CHOICE=("vnc" "rdp" "x2go")
 
-XKALI_PKG=large
+XKALI_PKG=default
 XKALI_CHOICE=("arm" "core" "default" "everything" "firmware" "headless" "labs" "large" "nethunter")
 
-XNETWORK=default
+XNETWORK=bridge
 XNET_CHOICE=("bridge" "host")
 
 # ##########################################################################
@@ -105,7 +105,7 @@ read
 # ##########################################
 
 docker build \
-        -t stef609/kali-linux \
+        -t stef609/kali-linux-$XDESKTOP_ENVIRONMENT-$XREMOTE_ACCESS \
         --build-arg DESKTOP_ENVIRONMENT=$XDESKTOP_ENVIRONMENT \
         --build-arg REMOTE_ACCESS=$XREMOTE_ACCESS \
         --build-arg KALI_PACKAGE=$XKALI_PKG \
@@ -123,14 +123,15 @@ docker build \
 # user has made in the menu
 # ##########################################
 
-docker create   --name kali-linux \
+docker create   --name kali-linux-$XDESKTOP_ENVIRONMENT-$XREMOTE_ACCESS \
                 --network $XNETWORK \
                 -p $XRDP_PORT:$XRDP_PORT \
                 -p $XVNC_PORT:$XVNC_PORT \
                 -p $XSSH_PORT:$XSSH_PORT \
                 -t \
-                -v kaliuser_data:/home/kaliuser \
-                stef609/kali-linux
+                stef609/kali-linux-$XDESKTOP_ENVIRONMENT-$XREMOTE_ACCESS
+
+# for now disable mount...  -v kaliuser_data:/home/kaliuser \
 
 # ##########################################
 # start the container
@@ -139,5 +140,5 @@ docker create   --name kali-linux \
 # ##########################################
 
 echo "Your image and container have been built. To start it use:"
-echo "> docker start kali-linux"
+echo "> docker start kali-linux-$XDESKTOP_ENVIRONMENT-$XREMOTE_ACCESS"
 echo "Use username kaliuser and password kALIKALI"
