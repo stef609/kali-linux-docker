@@ -76,10 +76,10 @@ RUN echo "/etc/init.d/ssh start" >> /startkali.sh
 RUN chmod 755 /startkali.sh
 
 # #####################################################
-# Install the Kali Packages
+# Install the Kali Packages + ZAProxy
 # #####################################################
 
-RUN apt -y install --no-install-recommends ${KALI_PKG}
+RUN apt -y install --no-install-recommends ${KALI_PKG} zaproxy
 
 # #####################################################
 # create the non-root kali user
